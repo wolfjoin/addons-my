@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <!--现金银行报表 tree-->
+    	<record id="bank_statements_report_tree" model="ir.ui.view">
+            <field name="name">bank.statements.report.tree</field>
+            <field name="model">bank.statements.report</field>
+            <field name="arch" type="xml">
+                <tree string="Bank Statements Report">
+                	<field name="date"/>
+                    <field name="name"/>
+                    <!-- <button name="find_source_order" type="object" string="查看原始单据" icon="fa-search" class="oe_highlight"/> -->
+                    <field name="partner_id"/>
+                    <field name="get" sum="收入"/>
+                    <field name="pay" sum="支出"/>
+                    <field name="balance"/>
+                    <field name="note"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_bank_statement_line_report" model="ir.actions.act_window">
+            <field name="name">Bank Statement Line report</field>
+            <field name="res_model">bank.statements.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+    
+        </record>
+
+        <!-- 现金银行报表向导 menu -->
+        <menuitem action="action_bank_statement_line_report" 
+            id="menu_finance_bank_statement_lines_report" name="Bank Report" parent="account.menu_finance_bank_and_cash" sequence="8"
+                    groups="account.group_account_user,account.group_account_manager"/>
+
+
+        
+	</data>
+</openerp>
+	

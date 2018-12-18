@@ -1,0 +1,71 @@
+<openerp>
+    <data>
+<!--view list for mssqlemployee-->
+        <record id="mssql_employee_view_tree" model="ir.ui.view">
+            <field name="name">mssql_employee_view_tree</field>
+            <field name="model">mssql.employee</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="employee_no"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mssql_employee_view_form" model="ir.ui.view">
+            <field name="name">mssql_employee_view_form</field>
+            <field name="model">mssql.employee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="employee_no"/>
+                                <field name="street2"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mssql_employee_view_search" model="ir.ui.view">
+            <field name="name">mssql_employee_view_search</field>
+            <field name="model">mssql.employee</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="mssql_employee_action" model="ir.actions.act_window">
+            <field name="name">mssql_employee_action</field>
+            <field name="res_model">mssql.employee</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="mssql_employee_view_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to create a mssql employee.
+            </p>
+            </field>
+        </record>
+
+        
+                <!-- top level menu: no parent -->
+        <menuitem id="main_test_menu" name="Test"/>
+        <!-- A first level in the left side menu is needed
+             before using action= attribute -->
+        <menuitem id="test_menu" name="test"
+                  parent="main_test_menu"/>
+        <!-- the following menuitem should appear *after*
+             its parent openacademy_menu and *after* its
+             action course_list_action -->
+        <menuitem id="msql_menu" name="Mysql Employee" parent="test_menu"
+                  action="mssql_employee_action" sequence="1"/>
+        <!-- Full id location:
+             action="openacademy.course_list_action"
+             It is not required when it is the same module -->
+    </data>
+</openerp>

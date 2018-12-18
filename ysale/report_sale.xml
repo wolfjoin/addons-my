@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record model="ir.ui.view" id="report_ysale_order_tree">
+            <field name="name">report_ysale_order.tree</field>
+            <field name="model">report.ysale.order</field>
+            <field name="arch" type="xml">
+                <tree string="Dates of Inventories" create="false">
+                    <field name="name"/>
+                    <field name="order_amount"/>
+                    <field name="pay_amount"/>
+                </tree>
+            </field>
+        </record>	
+        
+        <record model="ir.actions.act_window" id="action_report_sale">
+            <field name="name">订单报表</field>
+            <field name="res_model">report.ysale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">显示订单报表</field>
+        </record>
+
+        <menuitem parent="sale_menu" action="action_report_sale" id="menu_report_sale" string="订单报表"/>        	
+
+	</data>
+</openerp>
