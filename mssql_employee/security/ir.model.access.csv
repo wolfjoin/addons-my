@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_mssql_employee_mssql_employee,mssql_employee.mssql_employee,model_mssql_employee_mssql_employee,,1,0,0,0
