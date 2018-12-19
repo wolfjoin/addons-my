@@ -35,7 +35,7 @@ class StockQuant(models.Model):
                 'line_id': move_lines,
                 'period_id': period_id,
                 'date': date.today(),
-                'ref': move.picking_id.name,
+                'ref': move.picking_id.project_id.name,
                 'picking': move.picking_id.id,
             }, context=context)
 
@@ -71,7 +71,7 @@ class StockQuant(models.Model):
                     'product_id': move.product_id.id,
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
-                    'ref': move.picking_id and move.picking_id.name or False,
+                    'ref': move.picking_id.project_id and move.picking_id.project_id.name or False,
                     'date': move.date,
                     'partner_id': partner_id,
                     'debit': valuation_amount > 0 and valuation_amount or 0,
@@ -84,7 +84,7 @@ class StockQuant(models.Model):
                     'product_id': move.product_id.id,
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
-                    'ref': move.picking_id and move.picking_id.name or False,
+                    'ref': move.picking_id.project_id and move.picking_id.project_id.name or False,
                     'date': move.date,
                     'partner_id': partner_id,
                     'credit': valuation_amount > 0 and valuation_amount or 0,
