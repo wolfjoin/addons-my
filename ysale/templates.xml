@@ -1,0 +1,244 @@
+<openerp>
+    <data>
+
+
+<!--view list sale order-->
+        <record id="ysale_order_view_tree" model="ir.ui.view">
+            <field name="name">ysale_order_view_tree</field>
+            <field name="model">ysale.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="amount_total"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ysale_order_view_form" model="ir.ui.view">
+            <field name="name">ysale_order_view_form</field>
+            <field name="model">ysale.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" string="订单号"/>
+                        </group>
+                        <notebook>
+                            <page string="订单明细">
+                                <field name="order_line_ids">
+                                    <form string="订单明细">
+                                        <group>
+                                            <group>
+                                                <field name="name"/>
+                                                <field name="quantity"/>
+                                                <field name="price_unit"/>
+                                            </group>
+                                            <group>
+                                                <field name="shipping_price"/>
+                                                <field name="product_id"/>
+                                                <field name="subtotal"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                    <tree string="订单明细">
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="price_unit"/>
+                                        <field name="shipping_price"/>
+                                        <field name="product_id"/>
+                                        <field name="subtotal"/>
+                                    </tree>
+                                </field> 
+                            </page>
+                            <page string="付款明细">
+                                <field name="pay_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ysale_order_view_search" model="ir.ui.view">
+            <field name="name">ysale_order_view_search</field>
+            <field name="model">ysale.order</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="ysale_order_action" model="ir.actions.act_window">
+            <field name="name">订单</field>
+            <field name="res_model">ysale.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="ysale_order_view_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to create a order
+            </p>
+            </field>
+        </record>     
+
+     
+<!-- 产品视图 -->
+        <record id="yproduct_product_view_tree" model="ir.ui.view">
+            <field name="name">yproduct_product_view_tree</field>
+            <field name="model">yproduct.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sku"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="yproduct_product_view_form" model="ir.ui.view">
+            <field name="name">yproduct_product_view_form</field>
+            <field name="model">yproduct.product</field>
+            <field name="arch" type="xml">
+                <form string="产品">
+                    <sheet>
+                        <group>
+                            <field name="sku"/>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+<!-- 产品动作 -->
+        <record id="ysale_product_action" model="ir.actions.act_window">
+            <field name="name">产品</field>
+            <field name="res_model">yproduct.product</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to create a product
+                </p>
+            </field>
+        </record>  
+
+
+
+        <menuitem id="main_ysale_menu" name="Y销售"/>
+
+        <menuitem id="sale_menu" name="销售"
+                  parent="main_ysale_menu"/>
+        <!-- the following menuitem should appear *after*
+             its parent openacademy_menu and *after* its
+             action course_list_action -->
+        <menuitem id="sale_order_menu" name="销售订单" parent="sale_menu"
+                  action="ysale_order_action"/>
+
+        <menuitem id="sale_order_line_menu" name="销售订单明细" parent="sale_menu"
+                  action="ysale_order_line_action"/>
+
+        <menuitem id="product_menu" name="产品" parent="sale_menu"
+                  action="ysale_product_action"/>
+
+        <menuitem id="pay_menu" name="支付" parent="sale_menu"
+                  action="ysale_pay_action"/>   
+
+        <!-- Full id location:
+             action="openacademy.course_list_action"
+             It is not required when it is the same module -->
+                     
+<!--view list sale order line-->
+        <record id="ysale_order_line_view_tree" model="ir.ui.view">
+            <field name="name">ysale_order_line_view_tree</field>
+            <field name="model">ysale.order.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="order_id"/>
+                    <field name="name"/>
+                    <field name="quantity"/>
+                    <field name="price_unit"/>
+                    <field name="shipping_price"/>
+                    <field name="product_id"/>
+                    <field name="subtotal"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ysale_order_line_view_form" model="ir.ui.view">
+            <field name="name">ysale_order_line_view_form</field>
+            <field name="model">ysale.order.line</field>
+            <field name="arch" type="xml">
+                <form string="订单明细">
+                    <sheet>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="price_unit"/>
+                            <field name="shipping_price"/>
+                            <field name="product_id"/>
+                            <field name="subtotal"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+<!-- sale order line action -->
+        <record id="ysale_order_line_action" model="ir.actions.act_window">
+            <field name="name">订单明细</field>
+            <field name="res_model">ysale.order.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to create a order line
+            </p>
+            </field>
+        </record>       
+
+<!--view list sale order line-->
+        <record id="ysale_pay_view_tree" model="ir.ui.view">
+            <field name="name">ysale_pay_view_tree</field>
+            <field name="model">ysale.pay</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="order_id"/>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="order_type"/>
+                    <field name="money"/>
+                </tree>
+            </field>
+        </record>     
+
+        <record id="ysale_pay_view_form" model="ir.ui.view">
+            <field name="name">付款表单</field>
+            <field name="model">ysale.pay</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="order_id"/>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="order_type"/>
+                            <field name="money"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>         
+
+        <record id="ysale_pay_action" model="ir.actions.act_window">
+            <field name="name">支付</field>
+            <field name="res_model">ysale.pay</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Click to create a pay
+                </p>
+            </field>
+        </record>               
+
+    </data>
+</openerp>
