@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "./addons_add/amazon_pay",
+    'name': "amazon_pay",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        按照亚马逊结算报告模板V2格式设置字段，
+        添加到银行表单明细后""",
 
     'description': """
-        Long description of module's purpose
+        按照亚马逊结算报告模板V2格式设置字段，
+        添加到银行表单明细account.bank.statement.line后
+        通过内连接
+
     """,
 
     'author': "Your Company",
@@ -20,7 +23,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','account'],
 
     # always loaded
     'data': [
