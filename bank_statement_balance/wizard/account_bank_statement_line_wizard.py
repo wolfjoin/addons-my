@@ -48,7 +48,7 @@ class PartnerStatementsReportWizard(models.Model):
             'res_model': 'bank.statements.report',
             'view_id': False,
             'views': [(view.id, 'tree')],
-            'limit': 65535,
+            'limit': 80,
             'type': 'ir.actions.act_window',
             'domain': [('journal_id', '=', self.journal_id.id), ('date', '>=', self.from_date), ('date', '<=', self.to_date)]
         }
