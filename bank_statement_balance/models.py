@@ -15,7 +15,10 @@ class BankStatementBalance(models.Model):
         # 按照分录journal_id，绑定的是唯一银行卡，但是保存后，明细才会生成journal_id信息
         # todo: 如何设置银行明细能实时拥有journal_id，尝试onchange
         pre_record = self.search(
-            [('trade_datetime', '<=', self.trade_datetime), ('journal_id', '=', self.journal_id.id)])
+            [('trade_datetime', '<=', self.trade_datetime), ('sequence', '<=', self.sequence),('journal_id', '=', self.journal_id.id)])
+        # 修改原先自定义字段交易时间trade_datetime为date
+        # 交易时间一致就余额一样，通过增加序号来排序先后
+        
         for pre in pre_record:
             self.balance += pre.amount
 
@@ -56,13 +59,14 @@ class BankStatementBalance(models.Model):
 
     # balance = fields.Float(string=u'账户余额',readonly=True,
     #                        digits=dp.get_precision('Amount'))
-    trade_datetime = fields.Datetime(string=u'交易日期')
+    trade_datetime = fields.Datetime(string=u'交易日期', require=True)
     # 时间类型首字母大写，严格区分大小写
 
     # journal_id = fields.Many2one('account.bank.statement', default=lambda self: self.statement_id.journal_id)
     # 如果自动获取明细行分录为父表单的默认值，不是保存后
 
     date = fields.Date(string='Date', default=_compute_date)
+    # 自动从trade_datetime获取日期
 
 
 

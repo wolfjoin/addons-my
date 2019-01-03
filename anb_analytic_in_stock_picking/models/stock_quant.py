@@ -27,15 +27,20 @@ class StockQuant(models.Model):
             move_lines = self._prepare_account_move_line(
                 cr, uid, move, qty, cost, credit_account_id, debit_account_id,
                 context=context)
-            period_id = context.get(
-                'force_period', self.pool.get('account.period')
-                .find(cr, uid, context=context)[0])
+            # period_id = context.get(
+            #     'force_period', self.pool.get('account.period')
+            #     .find(cr, uid, context=context)[0])
+            # 取消原先强制为当期默认分期
+            period_id = (context.get('force_period') or
+                                self.pool.get('account.period').find(cr, uid, move.picking_id.date_done, context=context)[0])
+            # 修改为如上要么是强制分区或者按照完成出入库单据上的完成日期date_done
+            # date_done可以手工指定或者默认当前日期
             move_obj.create(cr, uid, {
                 'journal_id': journal_id,
                 'line_id': move_lines,
                 'period_id': period_id,
-                'date': date.today(),
-                'ref': move.picking_id.project_id.name,
+                'date': move.picking_id and move.picking_id.date_done or move.date,
+                'ref': move.picking_id.project_id and move.picking_id.project_id.name or move.picking_id.name,
                 'picking': move.picking_id.id,
             }, context=context)
 
@@ -72,7 +77,7 @@ class StockQuant(models.Model):
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id.project_id and move.picking_id.project_id.name or False,
-                    'date': move.date,
+                    'date': move.picking_id and move.picking_id.date_done or move.date,
                     'partner_id': partner_id,
                     'debit': valuation_amount > 0 and valuation_amount or 0,
                     'credit': valuation_amount < 0 and -valuation_amount or 0,
@@ -85,7 +90,7 @@ class StockQuant(models.Model):
                     'quantity': qty,
                     'product_uom_id': move.product_id.uom_id.id,
                     'ref': move.picking_id.project_id and move.picking_id.project_id.name or False,
-                    'date': move.date,
+                    'date': move.picking_id and move.picking_id.date_done or move.date,
                     'partner_id': partner_id,
                     'credit': valuation_amount > 0 and valuation_amount or 0,
                     'debit': valuation_amount < 0 and -valuation_amount or 0,
