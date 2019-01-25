@@ -82,7 +82,7 @@ class StockQuant(models.Model):
                     'debit': valuation_amount > 0 and valuation_amount or 0,
                     'credit': valuation_amount < 0 and -valuation_amount or 0,
                     'account_id': debit_account_id,
-                    'analytic_account_id': move.picking_id.project_id.id,
+                    'analytic_account_id': move.location_dest_id.usage != 'internal' and move.picking_id.project_id.id or False,
         }
         credit_line_vals = {
                     'name': move.name,
@@ -95,5 +95,7 @@ class StockQuant(models.Model):
                     'credit': valuation_amount > 0 and valuation_amount or 0,
                     'debit': valuation_amount < 0 and -valuation_amount or 0,
                     'account_id': credit_account_id,
+                    'analytic_account_id': move.location_dest_id.usage == 'internal' and move.picking_id.project_id.id or False,
+
         }
         return [(0, 0, debit_line_vals), (0, 0, credit_line_vals)]
