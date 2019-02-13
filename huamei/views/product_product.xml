@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<!-- improved idea categories list -->
+		<record id="product_product_form_amazon" model="ir.ui.view">
+		    <field name="name">product.product.form.amazon</field>
+		    <field name="model">product.product</field>
+		    <field name="mode">primary</field>
+            <field eval="6" name="priority"/>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+		    <field name="arch" type="xml">
+		    	<!-- 原始主form -->
+		    	<form position="attributes">
+                    <attribute name="string">Product Variant</attribute>
+                </form>
+                <field name="active" position="after">
+                    <field name="ean13"/>
+                    <field name="default_code"/>    
+                    <field name="asin"/>    
+                </field>
+                <field name="list_price" position="attributes">
+                   <attribute name="name">lst_price</attribute>
+                </field>
+                <field name="name" position="replace">
+                    <field name="name" attrs="{'invisible': [('id', '!=', False)]}"/>
+                    <field name="product_tmpl_id" class="oe_inline" readonly="1" attrs="{'invisible': [('id', '=', False)], 'required': [('id', '!=', False)]}"/>
+                </field>
+                <xpath expr="//div[@class='oe_title']" position="inside">
+                    <field name="attribute_value_ids" widget="many2many_tags"/>
+                </xpath>
+
+		        <!-- 额外扩展 -->
+		        <xpath expr="//field[@name='volume']" position="replace">
+		          <field name="length_product" string="Length of Product"/>
+		          <field name="width_product" string="Width of Product"/>
+		          <field name="height_product" string="Height of Product"/>
+		          <field name="unit_product" string="Unit of Product"/>
+		          <field name="volume" string="Volume of Product"/>
+
+		          <field name="length_package" string="Length of Package"/>
+		          <field name="width_package" string="Width of Package"/>
+		          <field name="height_package" string="Height of Package"/>
+		          <field name="unit_package" string="Unit of Package"/>
+		          <field name="volume_package" string="Volume of Package"/>
+		        </xpath>
+		    </field>
+		</record>
+	</data>
+</openerp>
