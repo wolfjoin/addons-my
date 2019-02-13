@@ -24,7 +24,7 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'templates.xml',
         'report/account_bank_statement_line_view.xml',
         'wizard/account_bank_statement_line_wizard_view.xml',
